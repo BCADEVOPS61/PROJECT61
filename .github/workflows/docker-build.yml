@@ -1,0 +1,50 @@
+name: Build & Push Docker Images
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME_BACKEND: rentease-backend
+      IMAGE_NAME_FRONTEND: rentease-frontend
+      REGISTRY: ghcr.io
+
+    steps:
+      # 1️⃣ Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2️⃣ Log in to GHCR
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 3️⃣ Build backend Docker image
+      - name: Build backend image
+        working-directory: ./backend  # change if your backend folder is different
+        run: |
+          docker build -t $REGISTRY/yogamithra61/ManagementRental-backend:latest .
+
+      # 4️⃣ Build frontend Docker image
+      - name: Build frontend image
+        working-directory: ./frontend  # change if your frontend folder is different
+        run: |
+          docker build -t $REGISTRY/yogamithra61/ManagementRental-frontend:latest .
+
+      # 5️⃣ Push backend image
+      - name: Push backend image
+        run: |
+          docker push $REGISTRY/yogamithra61/ManagementRental-backend:latest
+
+      # 6️⃣ Push frontend image
+      - name: Push frontend image
+        run: |
+          docker push $REGISTRY/yogamithra61/ManagementRental-frontend:latest
