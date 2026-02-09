@@ -3,7 +3,6 @@ import AddProperty from "./components/AddProperty";
 import PropertyList from "./components/PropertyList";
 function App() {
   const listRef = useRef();
-
   return (
     <div>
       <h1>🏠 RentEase</h1>
