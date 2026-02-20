@@ -1,14 +1,20 @@
-# Use Java 17 image
-FROM eclipse-temurin:17-jdk-alpine
+# --------- Stage 1: Build ---------
+FROM eclipse-temurin:17-jdk-alpine AS builder
 
-# Set working directory inside container
 WORKDIR /app
 
-# Copy Gradle-built jar into container
-COPY build/libs/*.jar app.jar
+COPY . .
 
-# Expose backend port
+RUN chmod +x gradlew
+RUN ./gradlew clean build -x test
+
+# --------- Stage 2: Run ---------
+FROM eclipse-temurin:17-jdk-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/build/libs/*.jar app.jar
+
 EXPOSE 8080
 
-# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
