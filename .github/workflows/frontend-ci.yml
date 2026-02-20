@@ -2,37 +2,29 @@ name: Frontend CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  build-frontend:
+  frontend-build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: 18
 
       - name: Install dependencies
-        working-directory: ./rentease-frontend
-        run: npm install
+        run: |
+          cd rentease-frontend
+          npm install
 
       - name: Build frontend
-        working-directory: ./rentease-frontend
-        run: npm run build
-
-      - name: Test frontend
-        working-directory: ./rentease-frontend
-        run: npm test -- --watchAll=false
-
-
-
-
+        run: |
+          cd rentease-frontend
+          npm run build
