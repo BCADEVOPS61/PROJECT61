@@ -3,6 +3,7 @@ import axios from "axios";
 const API_URL = "https://project61-1.onrender.com/api/properties";
 
 class PropertyService {
+
   getAllProperties() {
     return axios.get(API_URL);
   }
@@ -12,13 +13,13 @@ class PropertyService {
   }
 
   updateProperty(id, property) {
-    return axios.put(`${API_URL}/${id}`, property);
+    return axios.put(API_URL + "/" + id, property);
   }
 
   deleteProperty(id) {
-    return axios.delete(`${API_URL}/${id}`);
+    return axios.delete(API_URL + "/" + id);
   }
+
 }
 
-const propertyService = new PropertyService();
-export default propertyService;
+export default new PropertyService();
