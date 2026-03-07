@@ -1,83 +1,75 @@
 import React, { useState } from "react";
-import PropertyService from "../services/PropertyService";
+import propertyService from "../services/PropertyService";
 
-function AddProperty({ refresh }) {
+function AddProperty() {
 
-  const [propertyName, setPropertyName] = useState("");
-  const [ownerName, setOwnerName] = useState("");
+  const [name, setName] = useState("");
+  const [owner, setOwner] = useState("");
   const [location, setLocation] = useState("");
-  const [rentAmount, setRentAmount] = useState("");
+  const [rent, setRent] = useState("");
   const [status, setStatus] = useState("");
 
-  const saveProperty = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
 
     const property = {
-      propertyName: propertyName,
-      ownerName: ownerName,
+      name: name,
+      owner: owner,
       location: location,
-      rentAmount: rentAmount,
+      rent: rent,
       status: status
     };
 
-    PropertyService.addProperty(property).then(() => {
-      alert("Property Added Successfully");
-
-      setPropertyName("");
-      setOwnerName("");
-      setLocation("");
-      setRentAmount("");
-      setStatus("");
-
-      refresh();
-    });
+    propertyService.addProperty(property)
+      .then(() => {
+        alert("Property Added Successfully");
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   return (
     <div>
       <h2>Add Property</h2>
 
-      <form onSubmit={saveProperty}>
+      <form onSubmit={onSubmit}>
 
         <input
           type="text"
           placeholder="Property Name"
-          value={propertyName}
-          onChange={(e) => setPropertyName(e.target.value)}
-          required
-        /><br/>
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        /><br />
 
         <input
           type="text"
-          placeholder="Owner Name"
-          value={ownerName}
-          onChange={(e) => setOwnerName(e.target.value)}
-          required
-        /><br/>
+          placeholder="Owner"
+          value={owner}
+          onChange={(e) => setOwner(e.target.value)}
+        /><br />
 
         <input
           type="text"
           placeholder="Location"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          required
-        /><br/>
+        /><br />
 
         <input
           type="number"
-          placeholder="Rent Amount"
-          value={rentAmount}
-          onChange={(e) => setRentAmount(e.target.value)}
-          required
-        /><br/>
+          placeholder="Rent"
+          value={rent}
+          onChange={(e) => setRent(e.target.value)}
+        /><br />
 
         <input
           type="text"
-          placeholder="Status (Available / Booked)"
+          placeholder="Status"
           value={status}
           onChange={(e) => setStatus(e.target.value)}
-          required
-        /><br/>
+        /><br />
 
         <button type="submit">Add</button>
 
