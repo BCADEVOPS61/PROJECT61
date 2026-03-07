@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from "react";
-import PropertyService from "../services/PropertyService";
+import propertyService from "../services/PropertyService";
 
-function PropertyList({ refresh }) {
+function PropertyList() {
 
   const [properties, setProperties] = useState([]);
 
   useEffect(() => {
-    fetchProperties();
-  }, [refresh]);
+    loadProperties();
+  }, []);
 
-  const fetchProperties = () => {
-    PropertyService.getAllProperties()
-      .then(res => {
-        setProperties(res.data);
+  const loadProperties = () => {
+    propertyService.getAllProperties()
+      .then(response => {
+        setProperties(response.data);
       })
-      .catch(err => console.log(err));
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   return (
     <div>
+
       <h2>Property List</h2>
 
       <table border="1">
@@ -34,18 +37,20 @@ function PropertyList({ refresh }) {
         </thead>
 
         <tbody>
-          {properties.map(property => (
-            <tr key={property.id}>
-              <td>{property.id}</td>
-              <td>{property.propertyName}</td>
-              <td>{property.ownerName}</td>
-              <td>{property.location}</td>
-              <td>{property.rentAmount}</td>
-              <td>{property.status}</td>
+          {properties.map((p) => (
+            <tr key={p.id}>
+              <td>{p.id}</td>
+              <td>{p.name}</td>
+              <td>{p.owner}</td>
+              <td>{p.location}</td>
+              <td>{p.rent}</td>
+              <td>{p.status}</td>
             </tr>
           ))}
         </tbody>
+
       </table>
+
     </div>
   );
 }
