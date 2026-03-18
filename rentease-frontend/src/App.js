@@ -1,15 +1,17 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import AddProperty from "./components/AddProperty";
 import PropertyList from "./components/PropertyList";
 
 function App() {
-  const listRef = useRef();
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const refresh = () => setRefreshKey(prev => prev + 1);
 
   return (
     <div>
       <h1>🏠 RentEase</h1>
-      <AddProperty refresh={() => window.location.reload()} />
-      <PropertyList ref={listRef} />
+      <AddProperty refresh={refresh} />
+      <PropertyList refresh={refreshKey} />
     </div>
   );
 }

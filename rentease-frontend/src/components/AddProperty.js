@@ -12,6 +12,11 @@ function AddProperty({ refresh }) {
   const saveProperty = (e) => {
     e.preventDefault();
 
+    if (!propertyName || !ownerName || !location || !rentAmount || !status) {
+      alert("Please fill in all fields");
+      return;
+    }
+
     const property = {
       propertyName: propertyName,
       ownerName: ownerName,
@@ -20,17 +25,22 @@ function AddProperty({ refresh }) {
       status: status
     };
 
-    PropertyService.addProperty(property).then(() => {
-      alert("Property Added Successfully");
+    PropertyService.addProperty(property)
+      .then(() => {
+        alert("Property Added Successfully");
 
-      setPropertyName("");
-      setOwnerName("");
-      setLocation("");
-      setRentAmount("");
-      setStatus("");
+        setPropertyName("");
+        setOwnerName("");
+        setLocation("");
+        setRentAmount("");
+        setStatus("");
 
-      refresh();
-    });
+        refresh();
+      })
+      .catch((err) => {
+        console.error("Error adding property:", err);
+        alert("Error adding property. Please try again.");
+      });
   };
 
   return (

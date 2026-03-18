@@ -1,22 +1,34 @@
 import axios from "axios";
 
-const API_URL = "https://project61-1.onrender.com";
+const API_URL = process.env.REACT_APP_API_URL + "/properties";
 
 class PropertyService {
   getAllProperties() {
-    return axios.get(API_URL);
+    return axios.get(API_URL).catch(err => {
+      console.error("Error fetching properties:", err);
+      return { data: [] };
+    });
   }
 
   addProperty(property) {
-    return axios.post(API_URL, property);
+    return axios.post(API_URL, property).catch(err => {
+      console.error("Error adding property:", err);
+      throw err;
+    });
   }
 
   updateProperty(id, property) {
-    return axios.put(`${API_URL}/${id}`, property);
+    return axios.put(`${API_URL}/${id}`, property).catch(err => {
+      console.error("Error updating property:", err);
+      throw err;
+    });
   }
 
   deleteProperty(id) {
-    return axios.delete(`${API_URL}/${id}`);
+    return axios.delete(`${API_URL}/${id}`).catch(err => {
+      console.error("Error deleting property:", err);
+      throw err;
+    });
   }
 }
 
