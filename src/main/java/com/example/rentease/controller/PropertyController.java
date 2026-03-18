@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://pro-61.vercel.app")
 @RestController
 @RequestMapping("/api/properties")
 public class PropertyController {
