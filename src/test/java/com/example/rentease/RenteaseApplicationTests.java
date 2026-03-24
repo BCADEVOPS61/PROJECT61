@@ -9,5 +9,5 @@ class RenteaseApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
+
